@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Session" representedClassName=".Session" syncable="YES" codeGenerationType="class">
+    <entity name="Feedback" representedClassName="Feedback" parentEntity="SyncObject" syncable="YES" codeGenerationType="class">
+        <attribute name="content" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <relationship name="snapshot" maxCount="1" deletionRule="Cascade" destinationEntity="Snapshot" syncable="YES"/>
+    </entity>
+    <entity name="Session" representedClassName=".Session" parentEntity="SyncObject" syncable="YES" codeGenerationType="class">
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="startTime" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="screenshots" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Snapshot" inverseName="session" inverseEntity="Snapshot" syncable="YES"/>
+        <relationship name="snapshots" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Snapshot" inverseName="session" inverseEntity="Snapshot" syncable="YES"/>
         <relationship name="touches" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Touch" inverseName="session" inverseEntity="Touch" syncable="YES"/>
     </entity>
     <entity name="Snapshot" representedClassName=".Snapshot" syncable="YES" codeGenerationType="class">
         <attribute name="content" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="triggeredDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="screenshots" inverseEntity="Session" syncable="YES"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feedback" syncable="YES"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="snapshots" inverseEntity="Session" syncable="YES"/>
+    </entity>
+    <entity name="SyncObject" representedClassName="SyncObject" syncable="YES" codeGenerationType="class">
+        <attribute name="compressed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="synced" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Touch" representedClassName=".Touch" syncable="YES" codeGenerationType="class">
         <attribute name="location" attributeType="Transformable" syncable="YES"/>
@@ -18,7 +28,9 @@
     </entity>
     <elements>
         <element name="Session" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Snapshot" positionX="-54" positionY="9" width="128" height="90"/>
+        <element name="Snapshot" positionX="-54" positionY="9" width="128" height="105"/>
         <element name="Touch" positionX="-36" positionY="27" width="128" height="90"/>
+        <element name="Feedback" positionX="-54" positionY="36" width="128" height="90"/>
+        <element name="SyncObject" positionX="-45" positionY="45" width="128" height="75"/>
     </elements>
 </model>

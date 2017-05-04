@@ -67,7 +67,7 @@ final class Store {
         self.moc.perform {
 
             let snapshot = NSEntityDescription.insertNewObject(forEntityName: "Snapshot", into: self.moc) as! Snapshot
-            snapshot.content = UIImagePNGRepresentation(image) as NSData?
+            snapshot.content = UIImageJPEGRepresentation(image, 0.5) as NSData?
             snapshot.session = self.currentSession
             snapshot.triggeredDate = NSDate()
 

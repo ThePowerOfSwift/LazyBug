@@ -65,16 +65,11 @@ final class TransparentWindow: UIWindow {
                 case .began:
                     LazyBug.shared.takeScreenshot(withTouch: point)
                     lastPoint = point
-                    break
                 case .moved:
                     if let last = lastPoint, hypotf(Float(last.x - point.x), Float(last.y - point.y)) > 25 {
                         LazyBug.shared.takeScreenshot(withTouch: point)
                         lastPoint = point
                     }
-                    break
-                case .ended:
-
-                    break
                 default:
                     break
                 }

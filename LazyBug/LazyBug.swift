@@ -8,9 +8,11 @@
 
 import Foundation
 
-public final class LazyBug {
+public final class LazyBug: FeedBackWindowDelegate{
 
     var debugWindow: UIWindow?
+    var feedbackWindow: UIWindow?
+
     var timer: Timer?
     static var shared: LazyBug = {
         return LazyBug()
@@ -24,13 +26,16 @@ public final class LazyBug {
     }
 
     private func startSession() {
-
         // Start debugwindow
         showTransparentWindow()
         // Start Hooking on ScreenShots
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.screenShotTriggered(notif:)), name: .UIApplicationUserDidTakeScreenshot, object: nil)
-        resetTimer()
+        //resetTimer()
+
+        showFeedbackWindow()
+
     }
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -41,14 +46,23 @@ public final class LazyBug {
         self.debugWindow = window
     }
 
+    private func showFeedbackWindow() {
+        guard let snapshot = LazyBug.takeRawSnapshot() else { return }
+        let window = FeedbackWindow(snapshot: snapshot)
+        window.isHidden = false
+        self.feedbackWindow = window
+        window.delegate = self
+    }
+
     @objc func screenShotTriggered(notif: Notification) {
-        print("Screen shots")
+        showFeedbackWindow()
     }
 
     @objc func timerTriggered(timer: Timer) {
-        print("Timer screensots")
+        print("Timer snapshot")
         takeScreenshot()
     }
+    
     func takeScreenshot(withTouch touch: CGPoint? = nil) {
         let snapshot = LazyBug.takeRawSnapshot(withTouch: touch)
         Store.shared.addSnapshot(image: snapshot)
@@ -85,6 +99,11 @@ public final class LazyBug {
         UIGraphicsEndImageContext()
         
         return img
+    }
+
+    func windowDidCancel(_ window: FeedbackWindow) {
+        window.isHidden = true
+        self.feedbackWindow = nil
     }
 
   }
