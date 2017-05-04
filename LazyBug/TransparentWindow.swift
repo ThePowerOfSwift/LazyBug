@@ -46,38 +46,40 @@ final class TransparentWindow: UIWindow {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var next: UIResponder? {
-        return UIApplication.shared.delegate?.window ?? nil
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let window = UIApplication.shared.delegate?.window ?? nil {
+            return window.hitTest(point, with: event)
+        }
+        return super.hitTest(point, with: event)
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        guard let point = event?.allTouches?.first?.location(in: self) else {
-            return
-        }
+    override func sendEvent(_ event: UIEvent) {
 
-        Store.shared.addSnapshot(image: TakeScreenshot(withTouch: point))
-        lastPoint = point
+        if let touches = event.allTouches {
+            if let touch = touches.first {
 
-        self.next?.touchesBegan(touches, with: event)
-    }
+                let point = touch.location(in: self)
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+                switch touch.phase {
+                case .began:
+                    LazyBug.shared.takeScreenshot(withTouch: point)
+                    lastPoint = point
+                    break
+                case .moved:
+                    if let last = lastPoint, hypotf(Float(last.x - point.x), Float(last.y - point.y)) > 25 {
+                        LazyBug.shared.takeScreenshot(withTouch: point)
+                        lastPoint = point
+                    }
+                    break
+                case .ended:
 
-        guard let point = event?.allTouches?.first?.location(in: self) else {
-            print("Touched")
-            return
-        }
-        if let last = lastPoint {
-            let delta = hypotf(Float(last.x - point.x), Float(last.y - point.y))
-            print("Delta: \(delta)")
-            if delta > 25 {
-                print("Enough moved")
-                Store.shared.addSnapshot(image: TakeScreenshot(withTouch: point))
-                lastPoint = point
+                    break
+                default:
+                    break
+                }
             }
         }
-        self.next?.touchesMoved(touches, with: event)
+        super.sendEvent(event)
     }
-
 }

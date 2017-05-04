@@ -11,7 +11,7 @@ import Foundation
 public final class LazyBug {
 
     var debugWindow: UIWindow?
-
+    var timer: Timer?
     static var shared: LazyBug = {
         return LazyBug()
     }()
@@ -27,10 +27,9 @@ public final class LazyBug {
 
         // Start debugwindow
         showTransparentWindow()
-        // Start Session
-//        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(LazyBug.timerTriggered(timer:)), userInfo: nil, repeats: true)
         // Start Hooking on ScreenShots
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.screenShotTriggered(notif:)), name: .UIApplicationUserDidTakeScreenshot, object: nil)
+        resetTimer()
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -47,7 +46,45 @@ public final class LazyBug {
     }
 
     @objc func timerTriggered(timer: Timer) {
-        Store.shared.addSnapshot(image: TakeScreenshot())
+        print("Timer screensots")
+        takeScreenshot()
+    }
+    func takeScreenshot(withTouch touch: CGPoint? = nil) {
+        let snapshot = LazyBug.takeRawSnapshot(withTouch: touch)
+        Store.shared.addSnapshot(image: snapshot)
+        resetTimer()
+    }
+
+    private func resetTimer() {
+        if let t = timer {
+            t.invalidate()
+        }
+
+        let t = Timer(timeInterval: 0.3, target: self, selector: #selector(LazyBug.timerTriggered), userInfo: nil, repeats: false)
+        RunLoop.main.add(t, forMode: .defaultRunLoopMode)
+        self.timer = t
+    }
+
+    private static func takeRawSnapshot(withTouch touch: CGPoint? = nil) -> UIImage? {
+
+        let view = UIScreen.main.snapshotView(afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(UIScreen.main.bounds.size)
+
+        // View
+        view.drawHierarchy(in: UIScreen.main.bounds, afterScreenUpdates: true)
+        //Touch
+        if let touch  = touch {
+            print("Snap with touch")
+            UIColor.gray.setStroke()
+            UIColor.lightGray.setFill()
+            let path = UIBezierPath(ovalIn: CGRect(origin: touch, size: CGSize(width: 50, height: 50)))
+            path.fill()
+            path.stroke()
+        }
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return img
     }
 
   }

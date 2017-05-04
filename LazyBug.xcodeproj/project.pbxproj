@@ -18,7 +18,6 @@
 		0B9B66571EBA1D4F0036B0FF /* LazyBug.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9B66331EBA1C120036B0FF /* LazyBug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0B9B665C1EBA23C50036B0FF /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B665B1EBA23C50036B0FF /* Store.swift */; };
 		0B9B665F1EBA24640036B0FF /* LazyBug.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B665D1EBA24640036B0FF /* LazyBug.xcdatamodeld */; };
-		0B9B66611EBA31190036B0FF /* SnapshotUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B66601EBA31190036B0FF /* SnapshotUtils.swift */; };
 		0B9B66631EBA32550036B0FF /* TransparentWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B66621EBA32550036B0FF /* TransparentWindow.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +59,6 @@
 		0B9B66521EBA1D3D0036B0FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B9B665B1EBA23C50036B0FF /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		0B9B665E1EBA24640036B0FF /* LazyBug.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LazyBug.xcdatamodel; sourceTree = "<group>"; };
-		0B9B66601EBA31190036B0FF /* SnapshotUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotUtils.swift; sourceTree = "<group>"; };
 		0B9B66621EBA32550036B0FF /* TransparentWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransparentWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +106,6 @@
 				0B9B66371EBA1C120036B0FF /* Info.plist */,
 				0B9B663E1EBA1C1D0036B0FF /* LazyBug.swift */,
 				0B9B665B1EBA23C50036B0FF /* Store.swift */,
-				0B9B66601EBA31190036B0FF /* SnapshotUtils.swift */,
 				0B9B665D1EBA24640036B0FF /* LazyBug.xcdatamodeld */,
 				0B9B66621EBA32550036B0FF /* TransparentWindow.swift */,
 			);
@@ -247,7 +244,6 @@
 				0B9B665C1EBA23C50036B0FF /* Store.swift in Sources */,
 				0B9B665F1EBA24640036B0FF /* LazyBug.xcdatamodeld in Sources */,
 				0B9B66631EBA32550036B0FF /* TransparentWindow.swift in Sources */,
-				0B9B66611EBA31190036B0FF /* SnapshotUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +477,7 @@
 				0B9B663D1EBA1C120036B0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0B9B66531EBA1D3D0036B0FF /* Build configuration list for PBXNativeTarget "TestApp" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +486,7 @@
 				0B9B66551EBA1D3D0036B0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
