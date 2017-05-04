@@ -94,8 +94,10 @@ fileprivate class FeedbackController: UIViewController {
         switch src.state {
         case .began:
             self.dragView.startPoint = src.location(in: self.imageView)
-        case .changed :
+        case .changed:
             self.dragView.endPoint = src.location(in: self.imageView)
+        case .ended:
+            displayAlert()
         default:
             break
         }
@@ -106,6 +108,9 @@ fileprivate class FeedbackController: UIViewController {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(FeedbackController.panTriggered(_:)))
         view.addGestureRecognizer(gesture)
         snapGesture = gesture
+    }
+
+    private func displayAlert() {
 
     }
 }
@@ -136,5 +141,25 @@ class FeedbackWindow: UIWindow, FeedbackControllerDelegate {
 
     fileprivate func controllerDidClose(_ feedbackController: FeedbackController) {
         delegate?.windowDidCancel(self)
+    }
+}
+
+fileprivate class FeedbackPresentationController: UIPresentationController {
+    let dimmingView = UIView()
+
+    override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+         dimmingView.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
+    }
+
+    override func presentationTransitionWillBegin() {
+        dimmingView.frame = containerView?.bounds ?? CGRect.zero
+        dimmingView.alpha = 0.0
+        containerView?.insertSubview(dimmingView, at: 0)
+
+        presentedViewController.transitionCoordinator?.animate(alongsideTransition: {
+            context in
+            self.dimmingView.alpha = 1.0
+        }, completion: nil)
     }
 }
