@@ -46,7 +46,7 @@ final class Store {
         moc.performAndWait { [unowned self] in
             let session = NSEntityDescription.insertNewObject(forEntityName: "Session", into: self.moc) as! Session
             session.identifier = UUID().uuidString
-            session.startTime = NSDate()
+            session.startDate = NSDate()
             self.currentSession = session
             do {
                 try self.moc.save()

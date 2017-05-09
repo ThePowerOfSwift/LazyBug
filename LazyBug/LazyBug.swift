@@ -8,18 +8,24 @@
 
 import Foundation
 
+
+public struct LazyBugOptions {
+    let baseURL: URL
+    let options: [String: Any]?
+}
+
 public final class LazyBug: FeedBackWindowDelegate{
+
+//    let options: LazyBugOptions
 
     var debugWindow: UIWindow?
     var feedbackWindow: UIWindow?
 
     var timer: Timer?
-    static var shared: LazyBug = {
-        return LazyBug()
-    }()
+    static var shared: LazyBug!
 
     public static func setup() {
-        let _ = LazyBug.shared
+        LazyBug.shared = LazyBug()
     }
     private init() {
         startSession()
