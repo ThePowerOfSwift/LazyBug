@@ -31,7 +31,7 @@ final class ConvertFeedbackProcedure: Procedure, OutputProcedure {
         guard !isCancelled else { self.finish(); return }
 
         do {
-            var request = Lazybug_FeedbackAddRequest()
+            var request = Lazybug_Feedback()
             request.identifier = feedback.identifier!
             request.creationDate =  formatter.string(from: feedback.createdDate! as Date)
             request.content = feedback.content!

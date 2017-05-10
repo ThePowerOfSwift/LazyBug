@@ -19,8 +19,8 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
     typealias Version = _1
 }
 
-struct Lazybug_FeedbackAddRequest: SwiftProtobuf.Message {
-    static let protoMessageName: String = _protobuf_package + ".FeedbackAddRequest"
+struct Lazybug_Feedback: SwiftProtobuf.Message {
+    static let protoMessageName: String = _protobuf_package + ".Feedback"
 
     var identifier: String = String()
 
@@ -73,7 +73,7 @@ struct Lazybug_FeedbackAddRequest: SwiftProtobuf.Message {
 
 fileprivate let _protobuf_package = "lazybug"
 
-extension Lazybug_FeedbackAddRequest: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension Lazybug_Feedback: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "identifier"),
         2: .same(proto: "creationDate"),
@@ -82,7 +82,7 @@ extension Lazybug_FeedbackAddRequest: SwiftProtobuf._MessageImplementationBase, 
         5: .same(proto: "snapshot"),
         ]
 
-    func _protobuf_generated_isEqualTo(other: Lazybug_FeedbackAddRequest) -> Bool {
+    func _protobuf_generated_isEqualTo(other: Lazybug_Feedback) -> Bool {
         if self.identifier != other.identifier {return false}
         if self.creationDate != other.creationDate {return false}
         if self.content != other.content {return false}
