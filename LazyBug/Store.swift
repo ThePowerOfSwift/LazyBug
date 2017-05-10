@@ -31,8 +31,8 @@ final class Store {
     }()
 
     lazy var model: NSManagedObjectModel = {
-        let modelURL =  Bundle(for: Store.self).url(forResource: "LazyBug", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOf: modelURL)!
+        let modelURL = Bundle(for: Store.self).url(forResource: "LazyBug", withExtension: "momd")
+        return NSManagedObjectModel(contentsOf: modelURL!)!
     }()
 
     lazy var moc: NSManagedObjectContext = {
@@ -56,7 +56,7 @@ final class Store {
             }
         }
     }
-
+    // MARK: - Snapshot
     func addSnapshot(image: UIImage?) {
 
         guard let image = image else {
@@ -78,6 +78,55 @@ final class Store {
                 print("Error: \(error)")
             }
         }
+    }
+
+    // MARK: - Feedback
+    func addFeedback(content: String, image: UIImage, completion: @escaping () -> Void) {
+
+        self.moc.perform {
+            do {
+                let feedback = NSEntityDescription.insertNewObject(forEntityName: "Feedback", into: self.moc) as! Feedback
+                feedback.content = content
+                feedback.snapshot = UIImageJPEGRepresentation(image, 0.5) as NSData?
+                feedback.createdDate = Date() as NSDate
+                feedback.identifier = UUID().uuidString
+
+                try self.moc.save()
+                DispatchQueue.global(qos: .background).async {
+                    completion()
+                }
+
+            } catch let error {
+                Log.debug("Impossible to save: \(error)")
+                
+            }
+            
+        }
+    }
+
+
+    func getUnsyncedFeedback() throws -> [Feedback] {
+
+        let request = NSFetchRequest<Feedback>(entityName: "Feedback")
+        request.returnsObjectsAsFaults = false
+        request.includesSubentities = true
+
+        var result: [Feedback] = []
+        var finalError: Error?
+        self.moc.performAndWait {
+
+            do {
+                result = try self.moc.fetch(request)
+            } catch let error {
+                Log.error("Error: \(error)")
+                finalError = error
+            }
+        }
+
+        if let error = finalError {
+            throw error
+        }
+        return result
     }
     static var shared = Store()
 }

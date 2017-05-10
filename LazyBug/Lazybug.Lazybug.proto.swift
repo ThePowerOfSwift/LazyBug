@@ -26,7 +26,11 @@ struct Lazybug_FeedbackAddRequest: SwiftProtobuf.Message {
 
     var creationDate: String = String()
 
-    var content: Data = SwiftProtobuf.Internal.emptyData
+    var content: String = String()
+
+    var meta: Data = SwiftProtobuf.Internal.emptyData
+
+    var snapshot: Data = SwiftProtobuf.Internal.emptyData
 
     var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -37,7 +41,9 @@ struct Lazybug_FeedbackAddRequest: SwiftProtobuf.Message {
             switch fieldNumber {
             case 1: try decoder.decodeSingularStringField(value: &self.identifier)
             case 2: try decoder.decodeSingularStringField(value: &self.creationDate)
-            case 3: try decoder.decodeSingularBytesField(value: &self.content)
+            case 3: try decoder.decodeSingularStringField(value: &self.content)
+            case 4: try decoder.decodeSingularBytesField(value: &self.meta)
+            case 5: try decoder.decodeSingularBytesField(value: &self.snapshot)
             default: break
             }
         }
@@ -51,7 +57,13 @@ struct Lazybug_FeedbackAddRequest: SwiftProtobuf.Message {
             try visitor.visitSingularStringField(value: self.creationDate, fieldNumber: 2)
         }
         if !self.content.isEmpty {
-            try visitor.visitSingularBytesField(value: self.content, fieldNumber: 3)
+            try visitor.visitSingularStringField(value: self.content, fieldNumber: 3)
+        }
+        if !self.meta.isEmpty {
+            try visitor.visitSingularBytesField(value: self.meta, fieldNumber: 4)
+        }
+        if !self.snapshot.isEmpty {
+            try visitor.visitSingularBytesField(value: self.snapshot, fieldNumber: 5)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
@@ -66,12 +78,16 @@ extension Lazybug_FeedbackAddRequest: SwiftProtobuf._MessageImplementationBase, 
         1: .same(proto: "identifier"),
         2: .same(proto: "creationDate"),
         3: .same(proto: "content"),
+        4: .same(proto: "meta"),
+        5: .same(proto: "snapshot"),
         ]
 
     func _protobuf_generated_isEqualTo(other: Lazybug_FeedbackAddRequest) -> Bool {
         if self.identifier != other.identifier {return false}
         if self.creationDate != other.creationDate {return false}
         if self.content != other.content {return false}
+        if self.meta != other.meta {return false}
+        if self.snapshot != other.snapshot {return false}
         if unknownFields != other.unknownFields {return false}
         return true
     }

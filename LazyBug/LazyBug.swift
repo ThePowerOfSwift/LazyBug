@@ -7,16 +7,20 @@
 //
 
 import Foundation
+import XCGLogger
+import ProcedureKit
 
+let Log = XCGLogger.default
 
-public struct LazyBugOptions {
-    let baseURL: URL
-    let options: [String: Any]?
-}
+public final class LazyBug: FeedBackWindowDelegate {
 
-public final class LazyBug: FeedBackWindowDelegate{
+    let queue: ProcedureQueue = {
+        let queue = ProcedureQueue()
+        queue.qualityOfService = .background
+        return queue
+    }()
 
-//    let options: LazyBugOptions
+    let feedbackClient: FeedbackServerClient
 
     var debugWindow: UIWindow?
     var feedbackWindow: UIWindow?
@@ -24,22 +28,23 @@ public final class LazyBug: FeedBackWindowDelegate{
     var timer: Timer?
     static var shared: LazyBug!
 
-    public static func setup() {
-        LazyBug.shared = LazyBug()
+    public static func setup(withURL url: String) {
+        guard let convertedURL = URL(string: url) else {
+            fatalError("Provided url is incorrect.")
+        }
+        LogManager.severity = .verbose
+        LazyBug.shared = LazyBug(withURL: convertedURL)
     }
-    private init() {
+    private init(withURL url: URL) {
+        self.feedbackClient = LazyServerClient(url: url)
         startSession()
     }
 
     private func startSession() {
-        // Start debugwindow
-        showTransparentWindow()
         // Start Hooking on ScreenShots
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.screenShotTriggered(notif:)), name: .UIApplicationUserDidTakeScreenshot, object: nil)
-        //resetTimer()
-
+        NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.feebackFormDidClose(notif:)), name: FeedbackFormController.DidCloseNotification, object: nil)
         showFeedbackWindow()
-
     }
 
     deinit {
@@ -50,6 +55,7 @@ public final class LazyBug: FeedBackWindowDelegate{
         let window = TransparentWindow()
         window.isHidden = false
         self.debugWindow = window
+        resetTimer()
     }
 
     private func showFeedbackWindow() {
@@ -58,6 +64,12 @@ public final class LazyBug: FeedBackWindowDelegate{
         window.isHidden = false
         self.feedbackWindow = window
         window.delegate = self
+        performSync()
+    }
+    
+    private func hideFeedbackWindow() {
+        self.feedbackWindow?.isHidden = true
+        self.feedbackWindow = nil
     }
 
     @objc func screenShotTriggered(notif: Notification) {
@@ -68,7 +80,11 @@ public final class LazyBug: FeedBackWindowDelegate{
         print("Timer snapshot")
         takeScreenshot()
     }
-    
+
+    @objc func feebackFormDidClose(notif: Notification) {
+        hideFeedbackWindow()
+    }
+
     func takeScreenshot(withTouch touch: CGPoint? = nil) {
         let snapshot = LazyBug.takeRawSnapshot(withTouch: touch)
         Store.shared.addSnapshot(image: snapshot)
@@ -94,7 +110,7 @@ public final class LazyBug: FeedBackWindowDelegate{
         view.drawHierarchy(in: UIScreen.main.bounds, afterScreenUpdates: true)
         //Touch
         if let touch  = touch {
-            print("Snap with touch")
+            Log.debug("Snap with touch: \(touch)")
             UIColor.gray.setStroke()
             UIColor.lightGray.setFill()
             let path = UIBezierPath(ovalIn: CGRect(origin: touch, size: CGSize(width: 50, height: 50)))
@@ -112,4 +128,9 @@ public final class LazyBug: FeedBackWindowDelegate{
         self.feedbackWindow = nil
     }
 
+    // MARK: - Sync
+
+    func performSync() {
+        queue.add(operation: FeebackSyncingProcedure(client: self.feedbackClient))
+    }
   }

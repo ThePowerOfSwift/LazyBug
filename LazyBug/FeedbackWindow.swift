@@ -50,6 +50,7 @@ fileprivate protocol FeedbackControllerDelegate {
 }
 
 class FeedbackController: UIViewController {
+
     fileprivate var snapshot: UIImage? {
         didSet {
             startAnimation(image: snapshot)
@@ -192,11 +193,16 @@ fileprivate class FeedbackPresentationController: UIPresentationController {
         }, completion: nil)
     }
 
+    override func dismissalTransitionDidEnd(_ completed: Bool) {
+        if completed {
+            NotificationCenter.default.post(name: FeedbackFormController.DidCloseNotification, object: nil)
+        }
+    }
+
     override var frameOfPresentedViewInContainerView: CGRect {
         let screenBounds = UIScreen.main.bounds
         let inset = screenBounds.insetBy(dx: 20, dy: 20)
         return CGRect(origin: inset.origin, size: CGSize(width: inset.width, height: 250))
-
     }
 }
 
@@ -204,6 +210,8 @@ fileprivate class FeedbackPresentationController: UIPresentationController {
 // MARK: - Feedback form
 
 class FeedbackFormController: UIViewController {
+
+    static let DidCloseNotification = Notification.Name("net.yageek.lazybug.feebackformDidClose")
 
     var snapshot: UIImage?
     @IBOutlet weak var snapshotImageView: UIImageView!
@@ -214,9 +222,18 @@ class FeedbackFormController: UIViewController {
         self.view.layer.cornerRadius = 10.0
         self.snapshotImageView.image = snapshot
     }
+
     @IBAction func addingTriggered(_ sender: Any) {
+        guard let image = snapshotImageView.image else { return }
+        
+        Store.shared.addFeedback(content: feedbackTextView.text ?? "<Empty>", image: image) {
+            LazyBug.shared.performSync()
+        }
+
+        dismiss(animated: true)
     }
     @IBAction func cancelTriggered(_ sender: Any) {
+        dismiss(animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {

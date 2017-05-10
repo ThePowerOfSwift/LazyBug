@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0902C21EC3485000694596 /* LazyBug.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B0902C01EC3485000694596 /* LazyBug.xcdatamodeld */; };
 		0B66E29F1EC2102F00F526B4 /* Lazybug.Lazybug.proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B66E29E1EC2102F00F526B4 /* Lazybug.Lazybug.proto.swift */; };
 		0B66E2A61EC2122B00F526B4 /* ProcedureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B66E2A21EC2122B00F526B4 /* ProcedureKit.framework */; };
 		0B66E2A71EC2122B00F526B4 /* ProcedureKitMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B66E2A31EC2122B00F526B4 /* ProcedureKitMobile.framework */; };
@@ -22,11 +23,13 @@
 		0B9B66561EBA1D4F0036B0FF /* LazyBug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9B66331EBA1C120036B0FF /* LazyBug.framework */; };
 		0B9B66571EBA1D4F0036B0FF /* LazyBug.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9B66331EBA1C120036B0FF /* LazyBug.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0B9B665C1EBA23C50036B0FF /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B665B1EBA23C50036B0FF /* Store.swift */; };
-		0B9B665F1EBA24640036B0FF /* LazyBug.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B665D1EBA24640036B0FF /* LazyBug.xcdatamodeld */; };
 		0B9B66631EBA32550036B0FF /* TransparentWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9B66621EBA32550036B0FF /* TransparentWindow.swift */; };
+		0B9D2D691EC3011A006C15C3 /* LazyServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D2D681EC3011A006C15C3 /* LazyServerClient.swift */; };
+		0B9D2D6B1EC301D5006C15C3 /* FeedbackServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D2D6A1EC301D5006C15C3 /* FeedbackServer.swift */; };
 		0BA73F161EC2142000D5C196 /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BA73F151EC2142000D5C196 /* ObjcExceptionBridging.framework */; };
 		0BA73F181EC2142C00D5C196 /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BA73F171EC2142C00D5C196 /* XCGLogger.framework */; };
 		0BA73F1A1EC21B0500D5C196 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BA73F191EC21B0500D5C196 /* Feedback.storyboard */; };
+		0BAFC0C51EC338BC0096F029 /* FeebackSyncingProcedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAFC0C41EC338BC0096F029 /* FeebackSyncingProcedure.swift */; };
 		0BF17D781EBB311100ACB7CB /* FeedbackWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF17D771EBB311100ACB7CB /* FeedbackWindow.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B0902C11EC3485000694596 /* LazyBug.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LazyBug.xcdatamodel; sourceTree = "<group>"; };
 		0B66E29E1EC2102F00F526B4 /* Lazybug.Lazybug.proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lazybug.Lazybug.proto.swift; sourceTree = "<group>"; };
 		0B66E2A21EC2122B00F526B4 /* ProcedureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ProcedureKit.framework; path = Carthage/Build/iOS/ProcedureKit.framework; sourceTree = "<group>"; };
 		0B66E2A31EC2122B00F526B4 /* ProcedureKitMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ProcedureKitMobile.framework; path = Carthage/Build/iOS/ProcedureKitMobile.framework; sourceTree = "<group>"; };
@@ -72,11 +76,13 @@
 		0B9B66501EBA1D3D0036B0FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B9B66521EBA1D3D0036B0FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B9B665B1EBA23C50036B0FF /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		0B9B665E1EBA24640036B0FF /* LazyBug.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LazyBug.xcdatamodel; sourceTree = "<group>"; };
 		0B9B66621EBA32550036B0FF /* TransparentWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransparentWindow.swift; sourceTree = "<group>"; };
+		0B9D2D681EC3011A006C15C3 /* LazyServerClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyServerClient.swift; sourceTree = "<group>"; };
+		0B9D2D6A1EC301D5006C15C3 /* FeedbackServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackServer.swift; sourceTree = "<group>"; };
 		0BA73F151EC2142000D5C196 /* ObjcExceptionBridging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcExceptionBridging.framework; path = Carthage/Build/iOS/ObjcExceptionBridging.framework; sourceTree = "<group>"; };
 		0BA73F171EC2142C00D5C196 /* XCGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCGLogger.framework; path = Carthage/Build/iOS/XCGLogger.framework; sourceTree = "<group>"; };
 		0BA73F191EC21B0500D5C196 /* Feedback.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Feedback.storyboard; sourceTree = "<group>"; };
+		0BAFC0C41EC338BC0096F029 /* FeebackSyncingProcedure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeebackSyncingProcedure.swift; sourceTree = "<group>"; };
 		0BF17D771EBB311100ACB7CB /* FeedbackWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackWindow.swift; sourceTree = "<group>"; };
 		0BF17D791EBB335B00ACB7CB /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,15 +148,13 @@
 		0B9B66351EBA1C120036B0FF /* LazyBug */ = {
 			isa = PBXGroup;
 			children = (
-				0B66E29E1EC2102F00F526B4 /* Lazybug.Lazybug.proto.swift */,
+				0BAFC0C31EC338AA0096F029 /* Sync */,
+				0B9D2D671EC30108006C15C3 /* Network */,
 				0B9B66361EBA1C120036B0FF /* LazyBug.h */,
 				0B9B66371EBA1C120036B0FF /* Info.plist */,
 				0B9B663E1EBA1C1D0036B0FF /* LazyBug.swift */,
-				0B9B665B1EBA23C50036B0FF /* Store.swift */,
-				0B9B665D1EBA24640036B0FF /* LazyBug.xcdatamodeld */,
-				0B9B66621EBA32550036B0FF /* TransparentWindow.swift */,
-				0BF17D771EBB311100ACB7CB /* FeedbackWindow.swift */,
-				0BA73F191EC21B0500D5C196 /* Feedback.storyboard */,
+				0B9D2D661EC300FC006C15C3 /* Store */,
+				0B9D2D651EC300F5006C15C3 /* UI */,
 			);
 			path = LazyBug;
 			sourceTree = "<group>";
@@ -166,6 +170,43 @@
 				0B9B66521EBA1D3D0036B0FF /* Info.plist */,
 			);
 			path = TestApp;
+			sourceTree = "<group>";
+		};
+		0B9D2D651EC300F5006C15C3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0B9B66621EBA32550036B0FF /* TransparentWindow.swift */,
+				0BF17D771EBB311100ACB7CB /* FeedbackWindow.swift */,
+				0BA73F191EC21B0500D5C196 /* Feedback.storyboard */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		0B9D2D661EC300FC006C15C3 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				0B9B665B1EBA23C50036B0FF /* Store.swift */,
+				0B0902C01EC3485000694596 /* LazyBug.xcdatamodeld */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
+		0B9D2D671EC30108006C15C3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0B66E29E1EC2102F00F526B4 /* Lazybug.Lazybug.proto.swift */,
+				0B9D2D681EC3011A006C15C3 /* LazyServerClient.swift */,
+				0B9D2D6A1EC301D5006C15C3 /* FeedbackServer.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		0BAFC0C31EC338AA0096F029 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				0BAFC0C41EC338BC0096F029 /* FeebackSyncingProcedure.swift */,
+			);
+			name = Sync;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,11 +350,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BAFC0C51EC338BC0096F029 /* FeebackSyncingProcedure.swift in Sources */,
 				0B9B663F1EBA1C1D0036B0FF /* LazyBug.swift in Sources */,
 				0B9B665C1EBA23C50036B0FF /* Store.swift in Sources */,
-				0B9B665F1EBA24640036B0FF /* LazyBug.xcdatamodeld in Sources */,
+				0B9D2D6B1EC301D5006C15C3 /* FeedbackServer.swift in Sources */,
 				0BF17D781EBB311100ACB7CB /* FeedbackWindow.swift in Sources */,
 				0B66E29F1EC2102F00F526B4 /* Lazybug.Lazybug.proto.swift in Sources */,
+				0B9D2D691EC3011A006C15C3 /* LazyServerClient.swift in Sources */,
+				0B0902C21EC3485000694596 /* LazyBug.xcdatamodeld in Sources */,
 				0B9B66631EBA32550036B0FF /* TransparentWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,12 +616,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0B9B665D1EBA24640036B0FF /* LazyBug.xcdatamodeld */ = {
+		0B0902C01EC3485000694596 /* LazyBug.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0B9B665E1EBA24640036B0FF /* LazyBug.xcdatamodel */,
+				0B0902C11EC3485000694596 /* LazyBug.xcdatamodel */,
 			);
-			currentVersion = 0B9B665E1EBA24640036B0FF /* LazyBug.xcdatamodel */;
+			currentVersion = 0B0902C11EC3485000694596 /* LazyBug.xcdatamodel */;
 			path = LazyBug.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

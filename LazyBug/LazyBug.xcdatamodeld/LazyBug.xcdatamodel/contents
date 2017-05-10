@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Feedback" representedClassName="Feedback" parentEntity="SyncObject" syncable="YES" codeGenerationType="class">
+    <entity name="Feedback" representedClassName=".Feedback" syncable="YES" codeGenerationType="class">
         <attribute name="content" attributeType="String" syncable="YES"/>
         <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
-        <relationship name="snapshot" maxCount="1" deletionRule="Cascade" destinationEntity="Snapshot" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="snapshot" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
-    <entity name="Session" representedClassName=".Session" parentEntity="SyncObject" syncable="YES" codeGenerationType="class">
+    <entity name="Session" representedClassName=".Session" syncable="YES" codeGenerationType="class">
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="snapshots" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Snapshot" inverseName="session" inverseEntity="Snapshot" syncable="YES"/>
+        <relationship name="snapshots" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Snapshot" syncable="YES"/>
     </entity>
     <entity name="Snapshot" representedClassName=".Snapshot" syncable="YES" codeGenerationType="class">
         <attribute name="content" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="triggeredDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feedback" syncable="YES"/>
-        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="snapshots" inverseEntity="Session" syncable="YES"/>
-    </entity>
-    <entity name="SyncObject" representedClassName="SyncObject" syncable="YES" codeGenerationType="class">
-        <attribute name="compressed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="synced" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Session" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Feedback" positionX="-54" positionY="36" width="128" height="105"/>
         <element name="Session" positionX="-63" positionY="-18" width="128" height="90"/>
-        <element name="Snapshot" positionX="-54" positionY="9" width="128" height="105"/>
-        <element name="SyncObject" positionX="-45" positionY="45" width="128" height="75"/>
+        <element name="Feedback" positionX="-54" positionY="-9" width="128" height="120"/>
+        <element name="Snapshot" positionX="-36" positionY="9" width="128" height="90"/>
     </elements>
 </model>
