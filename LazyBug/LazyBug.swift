@@ -32,7 +32,7 @@ public final class LazyBug: FeedBackWindowDelegate {
         guard let convertedURL = URL(string: url) else {
             fatalError("Provided url is incorrect.")
         }
-        LogManager.severity = .verbose
+//        LogManager.severity = .verbose
         LazyBug.shared = LazyBug(withURL: convertedURL)
     }
     private init(withURL url: URL) {
@@ -45,6 +45,9 @@ public final class LazyBug: FeedBackWindowDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.screenShotTriggered(notif:)), name: .UIApplicationUserDidTakeScreenshot, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.feebackFormDidClose(notif:)), name: FeedbackFormController.DidCloseNotification, object: nil)
         showFeedbackWindow()
+
+
+        performSync()
     }
 
     deinit {
@@ -55,7 +58,6 @@ public final class LazyBug: FeedBackWindowDelegate {
         let window = TransparentWindow()
         window.isHidden = false
         self.debugWindow = window
-        resetTimer()
     }
 
     private func showFeedbackWindow() {
@@ -64,7 +66,6 @@ public final class LazyBug: FeedBackWindowDelegate {
         window.isHidden = false
         self.feedbackWindow = window
         window.delegate = self
-        performSync()
     }
     
     private func hideFeedbackWindow() {

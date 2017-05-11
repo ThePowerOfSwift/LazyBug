@@ -104,6 +104,27 @@ final class Store {
         }
     }
 
+    func deleteFeedback(feedback: Feedback, completion: (Error?) -> Void) {
+
+        var finalError: Error?
+        defer {
+            completion(finalError)
+        }
+
+        let id = feedback.objectID
+        self.moc.perform {
+
+            let ctxFeedback = self.moc.object(with: id) as! Feedback
+            self.moc.delete(ctxFeedback)
+
+            do {
+                try self.moc.save()
+            } catch let error {
+                Log.error("Impossible to delete feeback: \(error)")
+                finalError = error
+            }
+        }
+    }
 
     func getUnsyncedFeedback() throws -> [Feedback] {
 

@@ -30,26 +30,28 @@ fileprivate class FeedbackSyncSingleProcedure: Procedure {
         guard !isCancelled else { return }
 
         client.sendFeedback(feedback: self.feedback) { (error) in
-            if let error = error {
-                self.finish(withError: error)
-            } else {
-
-                let id = self.feedback.objectID
-                self.moc.perform {
-
-                    let feedback = self.moc.object(with: id) as! Feedback
-                    self.moc.delete(feedback)
-                    do {
-                        try self.moc.save()
-                    } catch let error {
-                        self.finish(withError: error)
-                    }
-                }
+            if error == nil {
+                self.delete(feedback: self.feedback)
             }
+            self.finish(withError: error)
         }
     }
 
+    private func delete(feedback: Feedback) {
+        let id = self.feedback.objectID
+        self.moc.perform {
+
+            let feedback = self.moc.object(with: id) as! Feedback
+            self.moc.delete(feedback)
+            do {
+                try self.moc.save()
+            } catch let error {
+                self.finish(withError: error)
+            }
+        }
+    }
 }
+
 final class FeebackSyncingProcedure: Procedure {
 
     let client: FeedbackServerClient

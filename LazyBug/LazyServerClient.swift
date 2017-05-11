@@ -13,6 +13,7 @@ import Compression
 
 enum NetworkError: Error {
     case compression
+    case apiError
 }
 final class ConvertFeedbackProcedure: Procedure, OutputProcedure {
 
@@ -77,6 +78,29 @@ final class CompressDataProcedure: Procedure, InputProcedure, OutputProcedure {
     }
 }
 
+final class ValidAPICode: Procedure, InputProcedure {
+
+    var input: Pending<HTTPPayloadResponse<Data>> = .pending
+
+    override func execute() {
+        guard !isCancelled else { self.finish(); return }
+
+        guard let result = input.value else {
+            self.finish(withError: ProcedureKitError.requirementNotSatisfied())
+            return
+        }
+
+
+        switch result.response.statusCode {
+        case 200..<300:
+            self.finish()
+        default:
+            self.finish(withError: NetworkError.apiError)
+        }
+
+    }
+}
+
 final class LazyServerClient: FeedbackServerClient {
     let queue: ProcedureQueue = {
         let queue = ProcedureQueue()
@@ -92,23 +116,19 @@ final class LazyServerClient: FeedbackServerClient {
     }
 
     func sendFeedback(feedback: Feedback, completion: @escaping (Error?) -> Void) {
-        var finalError: Error?
-        defer {
-            completion(finalError)
-        }
-
+      
         var httpRequest = URLRequest(url: url.appendingPathComponent("/feedbacks"))
         httpRequest.httpMethod = "PUT"
 
-
-        // Get Unsynced
         let convert = ConvertFeedbackProcedure(feedback: feedback)
         let transform = TransformProcedure { return HTTPPayloadRequest(payload: $0, request: httpRequest) }.injectResult(from: convert)
         let network = NetworkUploadProcedure(session: URLSession.shared).injectResult(from: transform)
-        network.addDidFinishBlockObserver { (_, errors) in
+        let valid = ValidAPICode().injectResult(from: network)
+
+        valid.addDidFinishBlockObserver { (_, errors) in
             completion(errors.first)
         }
-        
-        queue.add(operations: convert, transform, network)
+    
+        queue.add(operations: convert, transform, network, valid)
     }
 }
