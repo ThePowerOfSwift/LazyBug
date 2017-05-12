@@ -32,7 +32,7 @@ public final class LazyBug: FeedBackWindowDelegate {
         guard let convertedURL = URL(string: url) else {
             fatalError("Provided url is incorrect.")
         }
-//        LogManager.severity = .verbose
+        LogManager.severity = .verbose
         LazyBug.shared = LazyBug(withURL: convertedURL)
     }
     private init(withURL url: URL) {

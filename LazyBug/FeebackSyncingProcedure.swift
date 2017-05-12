@@ -31,26 +31,26 @@ fileprivate class FeedbackSyncSingleProcedure: Procedure {
 
         client.sendFeedback(feedback: self.feedback) { (error) in
             if error == nil {
-                self.delete(feedback: self.feedback)
-            }
-            self.finish(withError: error)
-        }
-    }
+                let id = self.feedback.objectID
+                self.moc.perform {
 
-    private func delete(feedback: Feedback) {
-        let id = self.feedback.objectID
-        self.moc.perform {
-
-            let feedback = self.moc.object(with: id) as! Feedback
-            self.moc.delete(feedback)
-            do {
-                try self.moc.save()
-            } catch let error {
-                self.finish(withError: error)
+                    let feedback = self.moc.object(with: id) as! Feedback
+                    self.moc.delete(feedback)
+                    do {
+                        try self.moc.save()
+                        self.finish()
+                    } catch let error {
+                        self.finish(withError: error)
+                    }
+                }
+            } else {
+                self.finish()
             }
         }
     }
 }
+
+
 
 final class FeebackSyncingProcedure: Procedure {
 
@@ -62,6 +62,7 @@ final class FeebackSyncingProcedure: Procedure {
 
         add(condition: MutuallyExclusive<FeebackSyncingProcedure>())
     }
+
     override func execute() {
         guard !isCancelled else { return }
               // All elements
@@ -74,17 +75,23 @@ final class FeebackSyncingProcedure: Procedure {
             }
 
             Log.debug("Start Syncing elements...")
-            for element in elements {
-                do {
-                    try produce(operation: FeedbackSyncSingleProcedure(client: client, feedback: element, psc: Store.shared.psc))
-                } catch let error {
-                    self.finish(withError: error)
-                }
+
+            let operations = elements.map {FeedbackSyncSingleProcedure(client: client, feedback: $0, psc: Store.shared.psc) }
+            let group = GroupProcedure(operations: operations)
+
+            group.addDidFinishBlockObserver(block: { (_, errors) in
+                self.finish(withError: errors.first)
+            })
+
+            do {
+                try produce(operation: group)
+            } catch let error {
+                self.finish(withError: error)
             }
+
+
         } catch let error {
             self.finish(withError: error)
         }
-
-        
     }
 }
