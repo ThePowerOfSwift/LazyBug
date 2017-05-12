@@ -15,6 +15,7 @@ enum NetworkError: Error {
     case compression
     case apiError
 }
+
 final class ConvertFeedbackProcedure: Procedure, OutputProcedure {
 
     let formatter = ISO8601DateFormatter()

@@ -109,7 +109,7 @@ class FeedbackController: UIViewController {
     private func takeSnapshot() {
         UIGraphicsBeginImageContext(self.imageView.bounds.size)
         // View
-        self.imageView.drawHierarchy(in: UIScreen.main.bounds, afterScreenUpdates: true)
+        self.imageView.drawHierarchy(in: imageView.bounds, afterScreenUpdates: true)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         self.annotedSnapshot = img

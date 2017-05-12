@@ -250,6 +250,7 @@
 				0B9B66411EBA1D3D0036B0FF /* Frameworks */,
 				0B9B66421EBA1D3D0036B0FF /* Resources */,
 				0B9B665A1EBA1D4F0036B0FF /* Embed Frameworks */,
+				0BEFBB0D1EC5B960000F8028 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -335,6 +336,26 @@
 				"$(SRCROOT)/Carthage/Build/iOS/ProcedureKitNetwork.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/XCGLogger.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ObjcExceptionBridging.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		0BEFBB0D1EC5B960000F8028 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftProtobuf.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ProcedureKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ProcedureKitNetwork.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/XCGLogger.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ObjcExceptionBridging.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ProcedureKitMobile.framework",
 			);
 			name = Carthage;
 			outputPaths = (

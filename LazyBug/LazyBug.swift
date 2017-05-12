@@ -44,10 +44,13 @@ public final class LazyBug: FeedBackWindowDelegate {
         // Start Hooking on ScreenShots
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.screenShotTriggered(notif:)), name: .UIApplicationUserDidTakeScreenshot, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LazyBug.feebackFormDidClose(notif:)), name: FeedbackFormController.DidCloseNotification, object: nil)
-        showFeedbackWindow()
-
 
         performSync()
+
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+//            self.showFeedbackWindow()
+//        }
     }
 
     deinit {
@@ -104,11 +107,17 @@ public final class LazyBug: FeedBackWindowDelegate {
 
     private static func takeRawSnapshot(withTouch touch: CGPoint? = nil) -> UIImage? {
 
-        let view = UIScreen.main.snapshotView(afterScreenUpdates: true)
-        UIGraphicsBeginImageContext(UIScreen.main.bounds.size)
+        guard let window = UIApplication.shared.keyWindow else {
+            return nil
+        }
+
+        UIGraphicsBeginImageContext(window.bounds.size)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return nil
+        }
 
         // View
-        view.drawHierarchy(in: UIScreen.main.bounds, afterScreenUpdates: true)
+         window.layer.render(in: context)
         //Touch
         if let touch  = touch {
             Log.debug("Snap with touch: \(touch)")
@@ -121,6 +130,15 @@ public final class LazyBug: FeedBackWindowDelegate {
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
+        return img
+    }
+
+    private func image(fromView view: UIView) -> UIImage? {
+
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0.0)
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         return img
     }
 
