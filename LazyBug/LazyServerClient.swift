@@ -10,6 +10,7 @@ import Foundation
 import ProcedureKit
 import ProcedureKitNetwork
 import Compression
+import SwiftProtobuf
 
 enum NetworkError: Error {
     case compression
@@ -37,7 +38,9 @@ final class ConvertFeedbackProcedure: Procedure, OutputProcedure {
             request.identifier = feedback.identifier!
             request.creationDate =  formatter.string(from: feedback.createdDate! as Date)
             request.content = feedback.content!
-            request.meta = try JSONSerialization.data(withJSONObject: Bundle.main.infoDictionary!, options: [])
+            if let meta = feedback.meta {
+                request.meta = meta as Data
+            }
             request.snapshot = feedback.snapshot! as Data
             let data = try request.serializedData()
 

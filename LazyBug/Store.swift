@@ -83,6 +83,14 @@ final class Store {
     // MARK: - Feedback
     func addFeedback(content: String, image: UIImage, completion: @escaping () -> Void) {
 
+        let device = UIDevice.current
+        var data: [String: Any?] = Bundle.main.infoDictionary!
+        data["Device name"] = device.name
+        data["Model"] = device.model
+        data["System name"] = device.systemName
+        data["System version"] = device.systemName
+        data["System version"] = device.systemVersion
+
         self.moc.perform {
             do {
                 let feedback = NSEntityDescription.insertNewObject(forEntityName: "Feedback", into: self.moc) as! Feedback
@@ -90,7 +98,7 @@ final class Store {
                 feedback.snapshot = UIImageJPEGRepresentation(image, 0.5) as NSData?
                 feedback.createdDate = Date() as NSDate
                 feedback.identifier = UUID().uuidString
-
+                feedback.meta = try JSONSerialization.data(withJSONObject: data, options: []) as NSData
                 try self.moc.save()
                 DispatchQueue.global(qos: .background).async {
                     completion()
