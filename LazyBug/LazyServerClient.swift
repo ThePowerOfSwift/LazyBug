@@ -19,7 +19,13 @@ enum NetworkError: Error {
 
 final class ConvertFeedbackProcedure: Procedure, OutputProcedure {
 
-    let formatter = ISO8601DateFormatter()
+    let formatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        let enUSPosixLocale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.locale = enUSPosixLocale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return dateFormatter
+    }()
     let feedback: Feedback
     var output: Pending<ProcedureResult<Data>> = .pending
 
